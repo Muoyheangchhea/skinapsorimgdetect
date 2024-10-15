@@ -10,8 +10,9 @@ from inference_sdk import InferenceHTTPClient, InferenceConfiguration
 import cv2
 import pandas as pd
 from joblib import load
+# from inference import get_model
 
-df=pd.read_csv(r"C:\Users\shali\OneDrive\Desktop\skin-care-Final\skin-care-complete\dataset\updated_skincare_products.csv")
+df=pd.read_csv(r"C:\Users\muoyh\OneDrive\Desktop\dataset\updated_skincare_products.csv")
 
 app = Flask(__name__)
 app.secret_key = '4545'
@@ -69,7 +70,7 @@ def insert_appointment_data(name,email,date,skin,phone,age,address,status,userna
     conn.close()                    
 
 # Load the trained model
-loaded_model = load("model/final_model.h5")
+loaded_model = load("C:/Users/muoyh/OneDrive/Desktop/model/final_model.h5")
 
 def findappointment(user):
     conn = sqlite3.connect('app.db')
@@ -181,7 +182,7 @@ def predict():
 
         # Draw boxes on the image
         image = cv2.imread(image_path)
-        detections = sv.Detections.from_roboflow(skin_result)
+        detections = sv.Detections.from_inference(skin_result)
         label_annotator = sv.LabelAnnotator()
         bounding_box_annotator = sv.BoxAnnotator()
 
